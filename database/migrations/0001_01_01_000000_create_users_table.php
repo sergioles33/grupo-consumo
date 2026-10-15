@@ -18,6 +18,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('role', ['admin', 'client', 'producer'])->default('client');
+            $table->boolean('is_active')->default(false); // false = pendiente de aprobación, true = aprobado
             $table->rememberToken();
             $table->timestamps();
         });

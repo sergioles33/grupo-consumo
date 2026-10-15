@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');  // producto pertenece a un usuario
             $table->string('name');         // Nombre del producto
             $table->text('description')->nullable(); // Descripción opcional
             $table->decimal('price', 8, 2); // Precio con decimales
-            $table->integer('stock')->default(0); // Cantidad disponible
+            $table->integer('stock')->default(0); // Cantidd disponible
+            $table->string('unit_type');
             $table->string('image')->nullable();
             $table->timestamps();
         });
