@@ -4,6 +4,7 @@ use App\Http\Controllers\Producer\ProductController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Client\ProductController as ClientProductController;
 
 //ruta publica innicial
 
@@ -34,27 +35,34 @@ Route::get('/dashboard', function () {
 //RUTAS PROTEGIDAS POR AUTENTIFICACION
 Route::middleware(['auth'])->group(function () {
 
+        //MODULOO ADMINISTRADOR
    // --- PANEL DE ADMINISTRADOR (Actualizado con controlador y botón de aprobar) ---
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
         Route::post('/users/{user}/approve', [AdminController::class, 'approve'])->name('users.approve');
     });
 
-    // dashboard para elproductor
+        //MODULO PRODUCTOR
+    // dashboard para el productor
     Route::get('/producer/dashboard', function (){
         return view('producer.dashboard');
     })->name('producer.dashboard');
-    // dashboard para cliente
-    Route::get('/client/dashboard',function (){
-        return view('client.dashboard');
-    })->name('client.dashboard');
-
-    
 
     //rutas para CRUD Produtores
     Route::prefix('producer')->name('producer.')->group(function(){
     Route::resource('products', ProductController::class);
 });
+
+        //MODULO CLIENTE
+    // dashboard para cliente
+    Route::get('/client/dashboard', function (){
+        return view('client.dashboard');
+    })->name('client.dashboard');
+
+    //ruta cliente Catalogo de Productos
+    Route::prefix('client')->name('client.')->group(function(){
+        Route::get('/products', [ClientProductController::class, 'index'])->name('products.index');
+    });  
 
     
 
