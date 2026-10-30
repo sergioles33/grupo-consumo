@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Producer\ProductController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Client\ProductController as ClientProductController;
@@ -61,8 +62,20 @@ Route::middleware(['auth'])->group(function () {
 
     //ruta cliente Catalogo de Productos
     Route::prefix('client')->name('client.')->group(function(){
+        //catalogo de productos
         Route::get('/products', [ClientProductController::class, 'index'])->name('products.index');
-    });  
+    }); 
+    
+    Route::prefix('client')->name('client.')->group(function () {
+    
+        // Rutas de productos existentes...
+        Route::get('/products', [App\Http\Controllers\Client\ProductController::class, 'index'])->name('products.index');
+
+        // --- RUTAS DEL CARRITO ---
+        Route::post('/cart/add/{product}', [App\Http\Controllers\Client\CartController::class, 'add'])->name('cart.add');
+        Route::get('/cart', [App\Http\Controllers\Client\CartController::class, 'index'])->name('cart.index');
+        Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove'); 
+    });
 
     
 
