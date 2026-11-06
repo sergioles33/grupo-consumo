@@ -3,24 +3,54 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
+                
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('client.dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
-                    </a>
+                    @if (request()->routeIs('admin.*'))
+                        <a href="{{ route('admin.dashboard') }}">
+                            <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                        </a>
+                    @elseif(request()->routeIs('producer.*'))
+                        <a href="{{ route('producer.dashboard') }}">
+                            <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                        </a>
+                    @else
+                        <a href="{{ route('client.dashboard') }}">
+                            <x-application-logo
+                                class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                        </a>
+                    @endif
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('client.dashboard')" :active="request()->routeIs('client.dashboard')">
-                        {{ __('Panel de cliente') }}
-                    </x-nav-link>
 
-                    <x-nav-link :href="route('client.products.index')" :active="request()->routeIs('client.products.index')">
-                        {{ __('Catálogo') }}
-                    </x-nav-link>
+                    {{-- si es administrador muestra --}}
+                    @if (request()->routeIs('admin.*'))
+                        <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+                            {{ __('Panel de Administrador') }}
+                        </x-nav-link>
 
-                   
+                        {{-- si es productor muestra --}}
+                    @elseif(request()->routeIs('producer.*'))
+                        <x-nav-link :href="route('producer.dashboard')" :active="request()->routeIs('producer.dashboard')">
+                            {{ __('Panel de Productor') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('producer.products.index')" :active="request()->routeIs('producer.products.*')">
+                            {{ __('Mis Productos') }}
+                        </x-nav-link>
+
+                        {{-- si es cliente muestra --}}
+                    @else
+                        <x-nav-link :href="route('client.dashboard')" :active="request()->routeIs('client.dashboard')">
+                            {{ __('Panel de cliente') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('client.products.index')" :active="request()->routeIs('client.products.index')">
+                            {{ __('Catálogo') }}
+                        </x-nav-link>
+                    @endif
+
                 </div>
             </div>
 
@@ -95,17 +125,32 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('client.dashboard')" :active="request()->routeIs('client.dashboard')">
-                {{ __('Panel de cliente') }}
-            </x-responsive-nav-link>
+            @if (request()->routeIs('admin.*'))
+                <!-- Móvil Admin -->
+                <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+                    {{ __('Panel Administrador') }}
+                </x-responsive-nav-link>
+            @elseif(request()->routeIs('producer.*'))
+                <!-- Móvil Productor -->
+                <x-responsive-nav-link :href="route('producer.dashboard')" :active="request()->routeIs('producer.dashboard')">
+                    {{ __('Panel Productor') }}
+                </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('client.products.index')" :active="request()->routeIs('client.products.index')">
-                {{ __('Catálogo') }}
-            </x-responsive-nav-link>
-
-            <x-responsive-nav-link :href="route('client.cart.index')" :active="request()->routeIs('client.cart.index')">
-                {{ __('Cesta') }}
-            </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('producer.products.index')" :active="request()->routeIs('producer.products.*')">
+                    {{ __('Mis Productos') }}
+                </x-responsive-nav-link>
+            @else
+                <!-- Móvil Cliente -->
+                <x-responsive-nav-link :href="route('client.dashboard')" :active="request()->routeIs('client.dashboard')">
+                    {{ __('Panel de cliente') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('client.products.index')" :active="request()->routeIs('client.products.index')">
+                    {{ __('Catálogo') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('client.cart.index')" :active="request()->routeIs('client.cart.index')">
+                    {{ __('Cesta') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
@@ -126,7 +171,7 @@
 
                     <x-responsive-nav-link :href="route('logout')"
                         onclick="event.preventDefault();
-                                            this.closest('form').submit();">
+                                    this.closest('form').submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </form>
