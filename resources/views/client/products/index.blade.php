@@ -8,7 +8,6 @@
                 <x-client-cart-icon />
             </div>
         </div>
-
     </x-slot>
 
     <div class="py-12">
@@ -44,13 +43,20 @@
             <!-- Grid de Productos -->
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 @forelse($products as $product)
-                    <div
-                        class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg border border-gray-200 dark:border-gray-700 flex flex-col justify-between">
+                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg border border-gray-200 dark:border-gray-700 flex flex-col justify-between">
+
+                        <!-- CONTENEDOR DE LA IMAGEN -->
+                        <div>
+                            <img src="{{ $product->image ? asset($product->image) : 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&q=80&w=600' }}" 
+                                 alt="{{ $product->name }}" 
+                                 class="w-full h-48 object-cover">
+                        </div>
 
                         <div class="p-4">
                             <h3 class="text-lg font-bold text-gray-900 dark:text-gray-100">{{ $product->name }}</h3>
                             <p class="text-sm text-gray-600 dark:text-gray-400 mt-1 line-clamp-2">
                                 {{ $product->description }}</p>
+                                
 
                             <!-- Stock y Tipo de Unidad -->
                             <div class="mt-2 text-xs text-gray-500 dark:text-gray-400">
@@ -78,7 +84,7 @@
                                 <!-- Botón de Añadir -->
                                 <button type="submit"
                                     class="inline-flex items-center px-3 py-1.5 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-500 transition">
-                                    Añadir ({{ $product->unit_type }})
+                                    Añadir
                                 </button>
                             </form>
                         </div>

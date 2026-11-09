@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "../../.."
+		},
+		{
+			"path": "../.."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "grupo-consumo",
+		"liveServer.settings.proxy": {
+			"enable": true,
+			"baseUri": "http://locallhost:8000"
+		}
+	}
+}

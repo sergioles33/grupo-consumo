@@ -6,11 +6,18 @@ use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Client\ProductController as ClientProductController;
+use App\Models\Product;
 
 //ruta publica innicial
 
 Route::get('/', function () {
     return view('welcome');
+});
+Route::get('/', function () {
+    // Obtenemos los últimos 6 productos creados
+    $products = Product::latest()->take(6)->get();
+
+    return view('welcome', compact('products'));
 });
 
 
